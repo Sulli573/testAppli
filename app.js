@@ -2,6 +2,8 @@ const express = require ('express')
 
     const app = express()  
     app.use(express.json()) // pour parser le body en json
+app.use(express.static('public')) // pour servir les fichiers statiques du dossier public
+
     app.post('/login', (req,res)=>{
         //destructuration du body
         const {email,password} = req.body  //remplace les deux lignes ci-dessous
