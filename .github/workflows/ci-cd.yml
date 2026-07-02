@@ -1,0 +1,61 @@
+name : CI/CD Pipeline
+# Déclenchement 
+on:
+  push:
+    branches: [ main ]
+    pull_request:
+      branches: [ main ]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récuperer le code du projet
+        uses: actions/checkout@v4
+
+      - name: Installer node.js
+        uses: actions/setup-node@v4
+
+      - name: Installer dépendances
+        run: npm install
+
+      - name: Lancer les tests unitaires
+        run: npm run test:unit
+
+      - name: Lancer les tests d'intégration
+        run: npm run test:integration
+
+      - name: Lancer les tests end-to-end
+        run: npm run test:e2e
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to production..."
+          # Add your deployment commands here
+
+    steps:
+      - name: Récuperer le code du projet
+        uses: actions/checkout@v4
+
+      - name: Installer node.js
+        uses: actions/setup-node@v4
+
+      - name: Installer dépendances
+        run: npm install
+
+      - name: Lancer les tests unitaires
+        run: npm run test:unit
+
+      - name: Lancer les tests d'intégration
+        run: npm run test:integration
+
+      - name: Lancer les tests end-to-end
+        run: npm run test:e2e
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to production..."
+          # Add your deployment commands here
