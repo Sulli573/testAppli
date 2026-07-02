@@ -1,61 +1,37 @@
-name : CI/CD Pipeline
-# Déclenchement 
+name: CI pipeline
+
 on:
   push:
-    branches: [ main ]
-    pull_request:
-      branches: [ main ]
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Récuperer le code du projet
+      - name: Récupérer le code du projet
         uses: actions/checkout@v4
 
-      - name: Installer node.js
+      - name: Installer NodeJS
         uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
-      - name: Installer dépendances
-        run: npm install
+      - name: Installer les deps
+        run: npm i
 
       - name: Lancer les tests unitaires
         run: npm run test:unit
 
-      - name: Lancer les tests d'intégration
+      - name: Lancer les tests integration
         run: npm run test:integration
 
-      - name: Lancer les tests end-to-end
+      - name: Installer les navigateurs Playwright
+        run: npx playwright install --with-deps
+
+      - name: Lancer les tests e2e
         run: npm run test:e2e
 
-      - name: Deploy to production
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "Deploying to production..."
-          # Add your deployment commands here
-
-    steps:
-      - name: Récuperer le code du projet
-        uses: actions/checkout@v4
-
-      - name: Installer node.js
-        uses: actions/setup-node@v4
-
-      - name: Installer dépendances
-        run: npm install
-
-      - name: Lancer les tests unitaires
-        run: npm run test:unit
-
-      - name: Lancer les tests d'intégration
-        run: npm run test:integration
-
-      - name: Lancer les tests end-to-end
-        run: npm run test:e2e
-
-      - name: Deploy to production
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "Deploying to production..."
-          # Add your deployment commands here
+      - name: Deploiement
+        run: echo "Déploiement non configuré"
